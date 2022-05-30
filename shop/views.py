@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Category, Product
+from django.core.paginator import Paginator
 
 # Create your views here.
 #def about_shop(request):
@@ -16,12 +17,21 @@ def product_list(request, category_slug=None):
     if category_slug:
         category=Category.objects.get(slug=category_slug)
         products=products.filter(category=category)
+        
+    paginator=Paginator(products,6)
+    if 'page' in request.GET:
+        page_num=request.GET['page']
+    else:
+        page_num=1
+    page=paginator.get_page(page_num)
+    
     return render(request, 'shop/product/list.html', {
         "category":category,
         "categories":categories,
-        "products":products
+        "products":products,
+        "page":page,
         })
 def product_detail(request,id):
     product = get_object_or_404(Product, id=id)
     return render(request,'shop/product/detail.html',{'product':product})
-                                      
+
