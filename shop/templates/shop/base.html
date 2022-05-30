@@ -23,7 +23,19 @@
 </a>
 </li>
 </ul>
-<div class="nav-link" href="#"> Корзина </div>
+<a class="btn btn-primary" href="{% url 'cart:cart_detail' %}">
+<div > Корзина </div>
+<span>
+{% with total_items=cart|length %}
+{% if cart|length > 0 %}
+{{ total_items }}
+{% else %}
+0
+{% endif %}
+{{ cart.get_total_price }} грн
+{% endwith %}
+</span>
+</a>
 </div>
 </div>
 </nav>
