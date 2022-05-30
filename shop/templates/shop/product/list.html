@@ -1,0 +1,53 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+{% if category %}
+category.name
+{% else %}
+Продукти
+{% endif %}
+{% endblock %}
+{% block content %}
+<div class="col-6 col-md-3">
+    <h6>Категорії</h6>
+    <ul>
+        <li %} %} category class="selected" endif if not {% {%>
+            <a href="{% url 'shop:product_list' %}">Всі</a>
+        </li>
+        {% for cat in categories %}
+        <li>
+            <a href="{{cat.get_absolute_url}}">{{cat.name}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="col-md-9">
+    <div class="container">
+        <div class="row m-2">
+            {% for product in products %}
+            <div class="col-4">
+                <div class="card m-2">
+                    <a href="{% url 'shop:product_detail' product.id %}">
+                        <img class="card-img-top"
+                             src="{% if product.image %} {{product.image.url}}{%
+else%}{% static 'img/no_image.png'%}{% endif %}">
+                    </a>
+
+                    <div class="card-body">
+
+                        <a href="{% url 'shop:product_detail' product.id %}">
+                            <h5 class="card-title"> {{product.name}}</h5>
+                        </a>
+
+                        <p class="card-text"> {{product.description}}</p>
+
+                        <p class="card-text">{{product.price}} грн. </p>
+                        <a class="btn btn-primary" href="#">Додати</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
