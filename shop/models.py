@@ -1,8 +1,7 @@
 from django.db import models
 from django.urls import reverse
-
-#модель Category -> таблиця shop_category
 from django.utils import timezone
+
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=100, db_index=True)
@@ -14,6 +13,7 @@ class Category(models.Model):
         # db_table = 'category'
     def __str__(self):
         return self.name
+    
     def get_absolute_url(self):
         return reverse("shop:product_list_by_category", args={self.slug})    
 
@@ -33,5 +33,6 @@ class Product(models.Model):
         ordering = ('name',)
         index_together = (('id', 'name'),)
 # db_table='product'
+
     def __str__(self):
         return self.name

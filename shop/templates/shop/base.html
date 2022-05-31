@@ -1,4 +1,6 @@
 {% load static %}
+{% load l10n %}
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -29,10 +31,18 @@
 {% with total_items=cart|length %}
 {% if cart|length > 0 %}
 {{ total_items }}
+{% if total_items == 1 %}
+<span>товар, вартістю</span>
+{% elif total_items > 4 %}
+<span>товарів, вартістю</span>
+{% elif total_items > 1 or item < 5 %}
+<span>товари, вартістю</span>
+{% endif %}
+{{ cart.get_total_price }}
+<span>грн.</span>           
 {% else %}
 0
 {% endif %}
-{{ cart.get_total_price }} грн
 {% endwith %}
 </span>
 </a>
